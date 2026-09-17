@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+
 html, body {
     margin: 0;
     padding: 0;
@@ -39,6 +40,7 @@ img {
 #fullscreen:hover {
     background: rgba(0,0,0,0.9);
 }
+
 </style>
 </head>
 
@@ -52,6 +54,10 @@ img {
 
 <script>
 
+/* ==============================
+   BOTÃO DE TELA CHEIA
+================================ */
+
 const botao = document.getElementById("fullscreen");
 
 function telaCheia() {
@@ -60,14 +66,18 @@ function telaCheia() {
 
     if (pagina.requestFullscreen) {
         pagina.requestFullscreen();
-    } 
+    }
     else if (pagina.webkitRequestFullscreen) {
         pagina.webkitRequestFullscreen();
     }
 
 }
 
-/* Quando entrar ou sair da tela cheia */
+
+/* ==============================
+   ESCONDER BOTÃO EM TELA CHEIA
+================================ */
+
 function verificarTelaCheia() {
 
     const estaEmTelaCheia =
@@ -90,6 +100,47 @@ document.addEventListener(
 document.addEventListener(
     "webkitfullscreenchange",
     verificarTelaCheia
+);
+
+
+/* ==============================
+   ESCONDER CURSOR AUTOMATICAMENTE
+================================ */
+
+let timerMouse;
+
+function esconderMouse() {
+    document.body.style.cursor = "none";
+}
+
+function mostrarMouse() {
+
+    document.body.style.cursor = "default";
+
+    clearTimeout(timerMouse);
+
+    timerMouse = setTimeout(
+        esconderMouse,
+        2000
+    );
+}
+
+document.addEventListener(
+    "mousemove",
+    mostrarMouse
+);
+
+document.addEventListener(
+    "mousedown",
+    mostrarMouse
+);
+
+/* Ao abrir a página,
+   aguarda 2 segundos e esconde */
+
+timerMouse = setTimeout(
+    esconderMouse,
+    2000
 );
 
 </script>
